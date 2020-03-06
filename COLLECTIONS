@@ -1,0 +1,100 @@
+import java.util.Arrays;
+ 
+public class DataWithList<EL> 
+{
+    private int size = 0;
+     
+    private static final int DEFIN_CAP = 10;
+     
+    private Object DIGITS[];
+ 
+//Default constructor
+    public DataWithList() {
+        DIGITS = new Object[DEFIN_CAP];
+    }
+ 
+//Add method
+    public void join(EL e) {
+        if (size == DIGITS.length) {
+            ensureCapacity();
+        }
+        DIGITS[size++] = e;
+    }
+     
+//Get method
+    @SuppressWarnings("unchecked")
+    public EL get(int h) {
+        if (h >= size || h < 0) {
+            throw new IndexOutOfBoundsException("Index: " + h + ", Size " + h);
+        }
+        return (EL) DIGITS[h];
+    }
+     
+ //Remove method
+    @SuppressWarnings("unchecked")
+    public EL remove(int h) {
+        if (h >= size || h < 0) {
+            throw new IndexOutOfBoundsException("Index: " + h + ", Size " + h);
+        }
+        Object item = DIGITS[h];
+        int numElts = DIGITS.length - ( h + 1 ) ;
+        System.arraycopy( DIGITS, h + 1, DIGITS, h, numElts ) ;
+        size--;
+        return (EL) item;
+    }
+     
+//Get Size of list
+    public int size() {
+        return size;
+    }
+     
+//Print method
+    @Override
+    public String toString() 
+    {
+         StringBuilder strbui = new StringBuilder();
+         strbui.append('[');
+         for(int i = 0; i < size ;i++) {
+             strbui.append(DIGITS[i].toString());
+             if(i<size-1){
+                 strbui.append(",");
+             }
+         }
+         strbui.append(']');
+         return strbui.toString();
+    }
+     
+    private void ensureCapacity() {
+        int newSize = DIGITS.length * 2;
+        DIGITS = Arrays.copyOf(DIGITS, newSize);
+    }
+
+
+
+// Main 
+    public static void main(String[] args) 
+    {
+        DataWithList<Integer> list = new DataWithList<>();
+ 
+ //INSERT elements
+        list.join(1);
+        list.join(2);
+        list.join(3);
+        list.join(4);
+
+        System.out.println(list);
+         
+//delete elements from index
+   
+        list.remove(3);
+
+        System.out.println(list);
+         
+//print element with index
+        System.out.println( list.get(0) );
+        System.out.println( list.get(2) );
+ 
+// List Size
+        System.out.println(list.size());
+    }
+}
